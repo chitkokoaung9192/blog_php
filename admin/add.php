@@ -20,8 +20,8 @@ if ($_POST) {
             array (':title'=>$title,':content'=>$content,':author_id'=>$_SESSION['user_id'],':image'=>$image)
         );
         if ($result) {
-            echo "<script>alert ('successfuly added')</script>";
-            header('location:index.php');
+            echo "<script>alert('successfuly added');window.location.href='index.php';</script>";
+            // header('location:index.php');
         }
     }
 }

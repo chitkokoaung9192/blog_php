@@ -7,7 +7,7 @@ if (empty($_SESSION['user_id'] ) && empty($_SESSION['logged_in'] )){
 }
 ?>
 
-<?php include('header.html'); ?>
+<?php include('header.php'); ?>
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
@@ -24,14 +24,14 @@ if (empty($_SESSION['user_id'] ) && empty($_SESSION['logged_in'] )){
               }else {
                 $pageno =1;
               }
-              $numOfrecs =1;
+              $numOfrecs =5;
               $offset =($pageno - 1) * $numOfrecs;
 
               if (empty($_POST['search'])) {
                 $stmt =$pdo->prepare("SELECT * FROM posts ORDER BY id DESC");
               $stmt ->execute();
               $rawResult =$stmt->fetchAll();
-              $total_pages =ceil(count($rawResult)* $numOfrecs );
+              $total_pages =ceil(count($rawResult) / $numOfrecs );
 
               $stmt =$pdo->prepare("SELECT * FROM posts ORDER BY id DESC LIMIT $offset,$numOfrecs ");
               $stmt ->execute();
