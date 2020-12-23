@@ -25,7 +25,7 @@
       }else{
       $name = $_POST['name'];
       $email = $_POST['email'];
-      $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+      $password = password_hash($_post['password'],PASSWORD_DEFAULT);
       if (empty( $_POST['role'])) {
        $role = 0;
       }else{
