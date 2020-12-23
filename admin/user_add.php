@@ -5,8 +5,7 @@
   if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
     header('Location:login.php');
   }
-  if ($_SESSION['role'] = 0 ) {
-   
+  if ($_SESSION['role'] != 1 ) {
     header('Location:login.php');
   }
   if ($_POST) {
@@ -23,12 +22,10 @@
         if (strlen($_POST['password'] ) < 4  ) {
           $passwordError = 'Password must be at least 5 chararcter ! ';
         }
-              }
-      else{
+      }else{
       $name = $_POST['name'];
       $email = $_POST['email'];
       $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-      
       if (empty( $_POST['role'])) {
        $role = 0;
       }else{
@@ -43,20 +40,15 @@
         echo "<script>alert('User email has already existed.')</script>";
       }
       else{
-
-      $stmt = $pdo->prepare("INSERT INTO users(name,email,password,role) VALUES(:name,:email,:password,:role)");
-      $result = $stmt->execute(
+          $stmt = $pdo->prepare("INSERT INTO users(name,email,password,role) VALUES(:name,:email,:password,:role)");
+          $result = $stmt->execute(
           array(':name' => $name , ':email' => $email ,':password' => $password , ':role' => $role)
         );
       if ($result) {
         echo "<script>alert('Successfully Added');window.location.href='user_list.php';</script>";
-
       }
-      }
-
-       }
-       
-  
+    }
+  }
   }
  ?>
   <?php include('header.php'); ?>
@@ -71,20 +63,17 @@
               <div class="card-body">
                 <form action="" method="post" >
                   <div class="form-group">
-                     <label for="name">name</label>
-                     <input type="text" class="form-control " name="name" id="name" >
-                      <p class="text-danger mt-3 font-weight-bold"><?php echo empty($nameError) ? '' : $nameError; ?></p>
+                     <label for="name">name</label><p class="text-danger mt-3 font-weight-bold"><?php echo empty($nameError) ? '' : $nameError; ?></p>
+                     <input type="text" class="form-control " name="name" id="name" >                 
                   </div>
                   <div class="form-group">                  
                     <input type="hidden" name="_token" value="<?php echo $_SESSION['_token'] ?>">
-                     <label for="email">Email</label>
+                     <label for="email">Email</label><p class="text-danger mt-3 font-weight-bold"><?php echo empty($emailError) ? '' : $emailError; ?></p>
                      <input type = "email" name="email" id="email" class="form-control" cols="10" rows="10"></input>
-                      <p class="text-danger mt-3 font-weight-bold"><?php echo empty($emailError) ? '' : $emailError; ?></p>
                   </div>
                   <div class="form-group">
-                     <label for="password">Password</label>
+                     <label for="password">Password</label><p class="text-danger mt-3 font-weight-bold"><?php echo empty($passwordError) ? '' : $passwordError; ?></p>
                      <input type = "password" name="password" id="password" class="form-control" cols="10" rows="10"></input>
-                      <p class="text-danger mt-3 font-weight-bold"><?php echo empty($passwordError) ? '' : $passwordError; ?></p>
                   </div>
 
                   <input type="checkbox" name="role">

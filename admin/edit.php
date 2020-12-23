@@ -5,32 +5,44 @@ require '../config/config.php';
 if (empty($_SESSION['user_id'] ) && empty($_SESSION['logged_in'] )){
   header ('location:login.php');
 }
+if ($_SESSION['role'] != 1) {
+  header('Location:login.php');
+}
 if ($_POST) {
-    $id =$_POST['id'];
-    $title =$_POST['title'];
-    $content =$_POST['content'];
-
-    if ($_FILES['image']['name'] != null) {
-        $file='images/'. ($_FILES['image']['name']);
-    $imageType = pathinfo ($file,PATHINFO_EXTENSION);
-    if ($imageType != 'png' && $imageType != 'jpg' && $imageType != 'jpeg') {
-        echo "<script>alert ('image must be png , jpg or jpeg')</script>";
+    if (empty($_POST['title']) || empty($_POST['content']) ) {
+      if (empty($_POST['title'])) {
+        $titleError = 'title cannot be null!';
+      }
+      if (empty($_POST['content'])) {
+        $contentError = 'title cannot be null!';
+      }
     }else {
-        $image = $_FILES['image']['name'];
-        move_uploaded_file($_FILES['image']['tmp_name'],$file );
+      $id =$_POST['id'];
+      $title =$_POST['title'];
+      $content =$_POST['content'];
 
-        $stmt = $pdo->prepare("UPDATE posts SET title='$title',content='$content',image='$image' WHERE id='$id' ");
-        $result = $stmt->execute();
+      if ($_FILES['image']['name'] != null) {
+          $file='images/'. ($_FILES['image']['name']);
+          $imageType = pathinfo ($file,PATHINFO_EXTENSION);
+      if ($imageType != 'png' && $imageType != 'jpg' && $imageType != 'jpeg') {
+          echo "<script>alert ('image must be png , jpg or jpeg')</script>";
+      }else {
+          $image = $_FILES['image']['name'];
+          move_uploaded_file($_FILES['image']['tmp_name'],$file );
+
+          $stmt = $pdo->prepare("UPDATE posts SET title='$title',content='$content',image='$image' WHERE id='$id' ");
+          $result = $stmt->execute();
         if ($result) {
-            echo "<script>alert ('successfuly updated'); window.location.href='index.php'</script>";
+           echo "<script>alert ('successfuly updated'); window.location.href='index.php'</script>";
+          }
         }
-    }
-    }else {
-        $stmt = $pdo->prepare("UPDATE posts SET title='$title',content='$content' WHERE id='$id' ");
-        $result = $stmt->execute();
-        if ($result) {
+        }else {
+          $stmt = $pdo->prepare("UPDATE posts SET title='$title',content='$content' WHERE id='$id' ");
+          $result = $stmt->execute();
+          if ($result) {
             echo "<script>alert ('successfuly updated'); window.location.href='index.php'</script>";
-        }
+          }
+      }
     }
 }
 
@@ -40,7 +52,7 @@ $stmt->execute();
 $result =$stmt->fetchAll();
 ?>
 
-<?php include('header.html'); ?>
+<?php include('header.php'); ?>
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
@@ -51,11 +63,11 @@ $result =$stmt->fetchAll();
               <form action="" method="post" enctype="multipart/form-data">
               <div class="form-group">
                 <input type="hidden" name="id" value="<?php echo $result[0]['id'] ?>">
-                  <label for="">Title</label>
-                  <input required type="text" name="title" value="<?php echo $result[0]['title'] ?>" class="form-control">
+                  <label for="">Title</label><p style="color:red;"><?php echo empty($titleError) ? '' : '*'. $titleError ?></p>
+                  <input type="text" name="title" value="<?php echo $result[0]['title'] ?>" class="form-control">
               </div>
               <div class="form-group">
-                  <label for="">Content</label><br>
+                  <label for="">Content</label><p style="color:red;"><?php echo empty($contentError) ? '' : '*'. $contentError ?></p>
                   <textarea class="form-control" name="content" id="" cols="80" rows="10"><?php echo $result[0]['content'] ?></textarea>
               </div>
               <div class="form-group">
