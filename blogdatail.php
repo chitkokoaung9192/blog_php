@@ -73,7 +73,7 @@
               <div class="card-header">
               <div class="card-header" style="text-align:center !important ;float:none">
                 <div class="care-title">
-                    <h4><?php echo $result[0]['title'] ?></h4>
+                    <h4><?php echo escape($result[0]['title']) ?></h4>
                 </div>
               </div>
                 <!-- /.user-block -->
@@ -82,7 +82,7 @@
               <div class="card-body">
                 <img class="img-fluid pad" src="admin/images/<?php echo $result [0]['image'] ?>" style="width:1700px !important;">
                   <br><br>
-                <p><?php echo $result[0]['content']?></p>
+                <p><?php echo escape($result[0]['content']) ?></p>
                 <h3>comment</h3><hr>
                 <a href="/blog" type="buttom" class="btn btn-default">Back</a>
               </div>
@@ -93,10 +93,10 @@
                     <div class="comment-text" style="margin-left:0px !important;">
                     <?php foreach ($cmResult as $key => $value) {?>
                       <span class="username">
-                      <?php print_r($auResult[$key][0]['name']);?>
-                      <span class="text-muted float-right"><?php echo $value['created_at']; ?></span>
+                      <?php echo escape($auResult[$key][0]['name']);?>
+                      <span class="text-muted float-right"><?php echo escape($value['created_at']); ?></span>
                     </span><!-- /.username -->
-                    <?php echo $value['content']; ?>
+                    <?php echo escape($value['content']); ?>
                     <?php
                     }
                     ?>

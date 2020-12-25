@@ -1,6 +1,7 @@
 <?php
 session_start();
 require '../config/config.php';
+require '../config/common.php';
 
 if (empty($_SESSION['user_id'] ) && empty($_SESSION['logged_in'] )){
   header ('location:login.php');
@@ -82,8 +83,8 @@ if (!empty($_POST['search'])) {
                       foreach ($result as $value) { ?>
                     <tr>
                       <td><?php echo $i;?></td>
-                      <td><?php echo substr($value['title'],0,30) ?></td>
-                      <td><?php echo substr($value['content'],0,85) ?></td>
+                      <td><?php echo escape(substr($value['title'],0,30)) ?></td>
+                      <td><?php echo escape(substr($value['content'],0,85)) ?></td>
                         <td>
                           <div class="btn-group">
                             <div class="container">

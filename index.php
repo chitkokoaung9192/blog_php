@@ -68,7 +68,7 @@
             <div class="card card-widget">
               <div class="card-header" style="text-align:center !important ;float:none">
                 <div class="care-title">
-                    <h4><?php echo $value['title'] ?></h4>
+                    <h4><?php echo escape($value['title']) ?></h4>
                 </div>
                 <!-- /.card-tools -->
               </div>

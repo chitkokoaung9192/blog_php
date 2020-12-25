@@ -1,6 +1,6 @@
 <?php 
 session_start();
-  require_once '../config/config.php';
+  require '../config/config.php';
   require '../config/common.php';
 
   if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
@@ -70,11 +70,11 @@ session_start();
                   <div class="form-group">
                     <input type="hidden" name="id" value="<?php echo $result[0]['id'] ?>">
                      <label for="name">Name</label><p class="text-danger mt-3 font-weight-bold"><?php echo empty($nameError) ? '' : $nameError; ?></p>
-                     <input type="text" class="form-control " name="name" id="name" value="<?php echo $result[0]['name'] ?>">
+                     <input type="text" class="form-control " name="name" id="name" value="<?php echo escape($result[0]['name']) ?>">
                   </div>
                   <div class="form-group">
                      <label for="email">Email</label><p class="text-danger mt-3 font-weight-bold"><?php echo empty($emailError) ? '' : $emailError; ?></p>
-                     <input type="text" name="email" id="email" class="form-control" cols="30" rows="10" value="<?php echo $result[0]['email']?>">
+                     <input type="text" name="email" id="email" class="form-control" cols="30" rows="10" value="<?php echo escape($result[0]['email']) ?>">
                      </input>
                   </div>
                   <div class="form-group">
