@@ -1,7 +1,8 @@
 <?php 
+session_start();
   require_once '../config/config.php';
-  require_once '../config/common.php';
-  
+  require '../config/common.php';
+
   if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
     header('Location:login.php');
   }
@@ -61,16 +62,15 @@
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          
           <div class="col-md-12">
             <div class="card">
               <div class="card-body">
                 <form action="" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="_token" value="<?php echo $_SESSION['_token']; ?>">
                   <div class="form-group">
-                    <input type="hidden" name="_token" value="<?php echo $_SESSION['_token'] ?>">
                     <input type="hidden" name="id" value="<?php echo $result[0]['id'] ?>">
                      <label for="name">Name</label><p class="text-danger mt-3 font-weight-bold"><?php echo empty($nameError) ? '' : $nameError; ?></p>
-                     <input type="text" class="form-control " name="name" id="name" value="<?php echo escape($result[0]['name']) ?>">
+                     <input type="text" class="form-control " name="name" id="name" value="<?php echo $result[0]['name'] ?>">
                   </div>
                   <div class="form-group">
                      <label for="email">Email</label><p class="text-danger mt-3 font-weight-bold"><?php echo empty($emailError) ? '' : $emailError; ?></p>

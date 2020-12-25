@@ -1,6 +1,7 @@
 <?php
 session_start();
 require '../config/config.php';
+require '../config/common.php';
 
 if (empty($_SESSION['user_id'] ) && empty($_SESSION['logged_in'] )){
   header ('location:login.php');
@@ -9,6 +10,7 @@ if ($_SESSION['role'] != 1) {
   header('Location:login.php');
 }
 if ($_POST) {
+  // if(!hash_equals($_SESSION['_token'],$_POST['_token'])) die();
     if (empty($_POST['title']) || empty($_POST['content']) || empty($_FILES['image'])) {
       if (empty($_POST['title'])) {
         $titleError ='title cannot be null';
@@ -52,6 +54,7 @@ if ($_POST) {
             <div class="card">
               <div class="card-body">
               <form action="add.php" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="_token" value="<?php echo $_SESSION['_token']; ?>">
               <div class="form-group">
                   <label for="">Title</label><P style="color:red;"><?php echo empty($titleError) ?  '' : '*'. $titleError ?></P>
                   <input type="text" name="title" value="" class="form-control">
